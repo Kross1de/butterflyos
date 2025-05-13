@@ -1,7 +1,7 @@
 #include <stdarg.h>
 #include "printf.h"
+char *currentVM = (char *)0xb8000;
 void printf(const char *format, ...){
-    char *videomem = (char *)0xb8000;
     va_list args;
     va_start(args, format);
     char attr = 0x0a;
@@ -9,10 +9,10 @@ void printf(const char *format, ...){
     while(*format){
         if(*format != '%'){
             if(*format == '\n'){
-                videomem += (80 - ((videomem - (char *)0xb8000) / 2) % 80) * 2;
+                currentVM += (80 - ((currentVM - (char *)0xb8000) / 2) % 80) * 2;
             } else {
-                printChar(videomem, *format, attr);
-                videomem += 2;
+                printChar(currentVM, *format, attr);
+                currentVM += 2;
             }
             format++;
             continue;
@@ -22,37 +22,37 @@ void printf(const char *format, ...){
         switch(*format){
             case 's': {
                 const char *str = va_arg(args, const char *);
-                printString(videomem, str, attr);
-                videomem += strlen(str) * 2;
+                printString(currentVM, str, attr);
+                currentVM += strlen(str) * 2;
                 break;
             }
             case 'c': {
                 char c = (char)va_arg(args, int);
-                printChar(videomem, c, attr);
-                videomem += 2;
+                printChar(currentVM, c, attr);
+                currentVM += 2;
                 break;
             }
             case 'd': {
                 int num = va_arg(args, int);
-                printInt(videomem, num, 10, attr);
+                printInt(currentVM, num, 10, attr);
                 char buf[12];
                 itoa(num, buf, 10);
-                videomem += strlen(buf) * 2;
+                currentVM += strlen(buf) * 2;
                 break;
             }
             case 'x': {
                 int num = va_arg(args, int);
-                printInt(videomem, num, 16, attr);
+                printInt(currentVM, num, 16, attr);
                 char buf[12];
                 itoa(num, buf, 16); 
-                videomem += strlen(buf) * 2;
+                currentVM += strlen(buf) * 2;
                 break;
             }
             default:
-                printChar(videomem, '%', attr);
-                videomem += 2;
-                printChar(videomem, *format, attr);
-                videomem += 2;
+                printChar(currentVM, '%', attr);
+                currentVM += 2;
+                printChar(currentVM, *format, attr);
+                currentVM += 2;
                 break;
         }
         format++;
@@ -60,23 +60,23 @@ void printf(const char *format, ...){
     va_end(args);
 }
 
-static void printChar(char *videomem, char c, char attr){
-    *videomem = c;
-    *(videomem + 1) = attr;
+static void printChar(char *currentVM, char c, char attr){
+    *currentVM = c;
+    *(currentVM + 1) = attr;
 }
 
-static void printString(char *videomem, const char *str, char attr){
+static void printString(char *currentVM, const char *str, char attr){
     while(*str){
-        printChar(videomem, *str, attr);
-        videomem += 2;
+        printChar(currentVM, *str, attr);
+        currentVM += 2;
         str++;
     }
 }
 
-static void printInt(char *videomem, int num, int base, char attr){
+static void printInt(char *currentVM, int num, int base, char attr){
     char buf[32];
     itoa(num, buf, base);
-    printString(videomem, buf, attr);
+    printString(currentVM, buf, attr);
 }
 
 static char *itoa(int value, char *str, int base){
