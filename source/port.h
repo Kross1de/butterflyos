@@ -2,7 +2,7 @@
 #define PORT_H
 unsigned char inportb(unsigned short port){
 	unsigned char ret;
-	asm volatile("inb %1, %0" : "=a"(value),"d"(port));
+	asm volatile("inb %1, %0" : "=a"(ret) : "d"(port));
 	return ret;
 }
 void outportb(unsigned short port,unsigned char value){

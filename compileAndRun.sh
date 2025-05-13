@@ -1,5 +1,7 @@
 #!/bin/bash
+# mkdir -p binaries/ iso/boot/grub
 mkdir -p binaries/ iso/boot/grub
+
 cat > iso/boot/grub/grub.cfg << EOF
 set timeout=5
 set default=0
@@ -10,6 +12,8 @@ menuentry "ButterflyOS" {
 }
 EOF
 echo '#include <stdarg.h>' > qq.c
+echo '#include <stdint.h>' >> qq.c
+echo '#include "source/IDT.h"' >> qq.c
 sed -n '/^#define PRINTF_H/,/^#endif/{/^#define PRINTF_H/b; /^#endif/b; p}' source/printf.h >> qq.c
 for file in source/*.c; do
     sed '/^#include /d' "$file" >> qq.c
