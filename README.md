@@ -8,6 +8,11 @@ ButterflyOS - Operating system written for fun in C
 # Features
 - Print to the screen
 - Framebuffer
+- GDT
 
 # TODO
-- [ ] idk
+- [ ] CPU work
+    - [X] GDT (for some reason doesn't work with QEMU with KVM)
+    - [ ] IDT
+- [ ] Serial driver
+- [ ] Memory Management

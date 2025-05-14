@@ -54,7 +54,7 @@ QEMUFLAGS = \
 	-serial stdio \
 	-cdrom $(IMAGE_NAME).iso \
 	-boot d \
-	-drive file="image.hdd",format="raw"
+	-drive file="hdd.img",format="raw"
 
 # Source files
 CFILES := $(shell cd src && find -L * -type f -name '*.c')
@@ -75,7 +75,7 @@ run:
 	qemu-system-x86_64 $(QEMUFLAGS)
 
 run-kvm:
-	qemu-system-x86_64 $(QEMUFLAGS) -accel kvm
+	qemu-system-x86_64 $(QEMUFLAGS)
 
 iso:
 	rm -rf iso_root
@@ -95,9 +95,9 @@ iso:
 	rm -rf iso_root
 
 hdd:
-ifeq (,$(wildcard image.hdd))
-	truncate -s 100M image.hdd
-	mkfs.ext2 image.hdd
+ifeq (,$(wildcard hdd.img))
+	truncate -s 100M hdd.img
+	mkfs.ext2 hdd.img
 endif
 
 bin/$(KERNEL): Makefile config/linker.ld $(OBJ)
