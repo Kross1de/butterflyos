@@ -23,40 +23,40 @@ static volatile struct limine_framebuffer_request framebuffer_request = {
 struct limine_framebuffer *framebuffer = NULL;
 struct flanterm_context *ft_ctx = NULL;
 
-void putchar_(char c) {
-    char str[] = {c};
-    flanterm_write(ft_ctx, str, 1);
-}
-
-int mubsan_log(const char* format,...){
-      va_list args;
-      va_start(args,format);
-      const int ret = vprintf(format,args);
-      va_end(args);
-
-      return ret;
-}
-
 static void hcf(void) {
     for (;;)
         asm volatile ("hlt");
 }
 
+void putchar_(char c) {
+    char str[] = {c};
+    flanterm_write(ft_ctx, str, 1);
+}
+
+int mubsan_log(const char* format, ...) {
+    va_list args;
+    va_start(args, format);
+    vprintf(format, args);
+    va_end(args);
+    
+    hcf();
+}
+
 void _start(void) {
-      serialInit();
-      dprintf("[INIT] Serial driver initialized\n");
+    serialInit();
+    dprintf("[INIT] Serial driver initialized\n");
+
     // Ensure the bootloader actually understands our base revision (see spec).
     if (LIMINE_BASE_REVISION_SUPPORTED == false){
-            dprintf("[ERROR] Limine base revision not supported\n");
-          hcf();
+        hcf();
     }
 
     // Ensure we got a framebuffer.
     if (framebuffer_request.response == NULL ||
         framebuffer_request.response->framebuffer_count < 1){
-          dprintf("[ERROR] No framebuffer provided");
-        hcf();
-    }
+            dprintf("[ERROR] No framebuffer provided");
+            hcf();
+        }
 
     framebuffer = framebuffer_request.response->framebuffers[0];
 
@@ -97,16 +97,11 @@ void _start(void) {
 
     int arr[4];
     arr[4] = 10;
-
     _Bool* boolPtr;
-    int value = 100;
-
-    boolPtr = (_Bool*)&value;
-
-    printf("Bool value: %d\n",*boolPtr);
-
+    int value = 188;
+    boolPtr = (_Bool*)&value; 
+    printf("Bool value: %d\n", *boolPtr);
     int* val = NULL;
     int a = *val;
-
     hcf();
 }
