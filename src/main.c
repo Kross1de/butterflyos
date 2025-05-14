@@ -28,6 +28,15 @@ void putchar_(char c) {
     flanterm_write(ft_ctx, str, 1);
 }
 
+int mubsan_log(const char* format,...){
+      va_list args;
+      va_start(args,format);
+      const int ret = vprintf(format,args);
+      va_end(args);
+
+      return ret;
+}
+
 static void hcf(void) {
     for (;;)
         asm volatile ("hlt");
@@ -85,6 +94,19 @@ void _start(void) {
     printf("\033[92m                    (c) Kross1de 2025\033[0m\n");
     dprintf("[STARTING] starting initializing CPU stuff\n");
     gdtInstall();
+
+    int arr[4];
+    arr[4] = 10;
+
+    _Bool* boolPtr;
+    int value = 100;
+
+    boolPtr = (_Bool*)&value;
+
+    printf("Bool value: %d\n",*boolPtr);
+
+    int* val = NULL;
+    int a = *val;
 
     hcf();
 }
