@@ -3,6 +3,7 @@
 #include <sys/io.h>
 #include <dev/char/serial.h>
 #include <cpu/GDT.h>
+#include <cpu/IDT.h>
 #include <lib/printf.h>
 #include <flanterm/flanterm.h>
 #include <flanterm/backends/fb.h>
@@ -99,6 +100,9 @@ void _start(void) {
     printf("\033[92m                    (c) Kross1de 2025\033[0m\n");
     dprintf("[STARTING] starting initializing CPU stuff\n");
     gdtInstall();
+    idtInstall();
+
+    //asm volatile("int $1");
 
     hcf();
 }
