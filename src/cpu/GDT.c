@@ -1,4 +1,5 @@
 #include <cpu/GDT.h>
+#include <dev/char/serial.h>
 
 gdtTable gdt = {
       {
@@ -28,4 +29,5 @@ void gdtInstall(){
       };
 
       asm volatile ("lgdt %0" :: "m"(gdt) : "memory");
+      dprintf("GDT: GDT initialized!\n");
 }
