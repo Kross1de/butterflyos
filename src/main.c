@@ -95,13 +95,8 @@ void _start(void) {
     dprintf("[STARTING] starting initializing CPU stuff\n");
     gdtInstall();
 
-    int arr[4];
-    arr[4] = 10;
-    _Bool* boolPtr;
-    int value = 188;
-    boolPtr = (_Bool*)&value; 
-    printf("Bool value: %d\n", *boolPtr);
-    int* val = NULL;
-    int a = *val;
+      char a;
+      *(char*)a = 'A';
+
     hcf();
 }
