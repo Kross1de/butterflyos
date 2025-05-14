@@ -33,10 +33,15 @@ void putchar_(char c) {
     flanterm_write(ft_ctx, str, 1);
 }
 
+void mubsan_write_char(char c,void *extra){
+      (void)extra;
+      outb(0xe9,c);
+}
+
 int mubsan_log(const char* fmt, ...) {
     va_list args;
     va_start(args, fmt);
-    vfctprintf(serial_write_char, NULL, fmt, args);
+    vfctprintf(mubsan_write_char, NULL, fmt, args);
     va_end(args);
     
     hcf();
@@ -94,9 +99,6 @@ void _start(void) {
     printf("\033[92m                    (c) Kross1de 2025\033[0m\n");
     dprintf("[STARTING] starting initializing CPU stuff\n");
     gdtInstall();
-
-      char a;
-      *(char*)a = 'A';
 
     hcf();
 }

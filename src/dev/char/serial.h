@@ -9,7 +9,6 @@
 #include <lib/printf.h>
 #include <sys/io.h>
 
-void serial_write_char(char c,void* extra);
 void serialInit();
 void dprintf(const char* fmt,...);
 char serialReadChar();
