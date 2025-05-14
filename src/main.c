@@ -1,5 +1,7 @@
 #include <types.h>
 #include <limine.h>
+#include <sys/io.h>
+#include <dev/char/serial.h>
 #include <cpu/GDT.h>
 #include <lib/printf.h>
 #include <flanterm/flanterm.h>
@@ -75,6 +77,7 @@ void _start(void) {
     printf("\033[93m                \O `::/       \::' O/\033[0m\n");
     printf("\033[94m                 ''--'         `--'' ButterflyOS\033[0m\n");
     printf("\033[92m                    (c) Kross1de 2025\033[0m\n");
+    dprintf("[STARTING] starting initializing CPU stuff\n");
     gdtInstall();
 
     hcf();

@@ -14,5 +14,5 @@ ButterflyOS - Operating system written for fun in C
 - [ ] CPU work
     - [X] GDT (for some reason doesn't work with QEMU with KVM)
     - [ ] IDT
-- [ ] Serial driver
+- [X] Serial driver
 - [ ] Memory Management
