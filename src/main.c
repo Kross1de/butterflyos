@@ -34,14 +34,20 @@ static void hcf(void) {
 }
 
 void _start(void) {
+      serialInit();
+      dprintf("[INIT] Serial driver initialized\n");
     // Ensure the bootloader actually understands our base revision (see spec).
-    if (LIMINE_BASE_REVISION_SUPPORTED == false)
-        hcf();
+    if (LIMINE_BASE_REVISION_SUPPORTED == false){
+            dprintf("[ERROR] Limine base revision not supported\n");
+          hcf();
+    }
 
     // Ensure we got a framebuffer.
     if (framebuffer_request.response == NULL ||
-        framebuffer_request.response->framebuffer_count < 1)
+        framebuffer_request.response->framebuffer_count < 1){
+          dprintf("[ERROR] No framebuffer provided");
         hcf();
+    }
 
     framebuffer = framebuffer_request.response->framebuffers[0];
 

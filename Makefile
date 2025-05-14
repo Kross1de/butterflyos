@@ -51,7 +51,7 @@ NASMFLAGS = \
 # QEMU flags
 QEMUFLAGS = \
 	-m 2G \
-	-debugcon stdio \
+	-serial stdio \
 	-cdrom $(IMAGE_NAME).iso \
 	-boot d \
 	-drive file="hdd.img",format="raw"
