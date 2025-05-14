@@ -15,7 +15,7 @@ LIMINE_BASE_REVISION(1)
 // the compiler does not optimise them away, so, in C, they should
 // NOT be made "static".
 
-static volatile struct limine_framebuffer_request framebuffer_request = {
+volatile struct limine_framebuffer_request framebuffer_request = {
     .id = LIMINE_FRAMEBUFFER_REQUEST,
     .revision = 0
 };
@@ -33,10 +33,10 @@ void putchar_(char c) {
     flanterm_write(ft_ctx, str, 1);
 }
 
-int mubsan_log(const char* format, ...) {
+int mubsan_log(const char* fmt, ...) {
     va_list args;
-    va_start(args, format);
-    vprintf(format, args);
+    va_start(args, fmt);
+    vfctprintf(serial_write_char, NULL, fmt, args);
     va_end(args);
     
     hcf();
