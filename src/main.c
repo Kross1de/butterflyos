@@ -5,6 +5,7 @@
 #include <cpu/GDT.h>
 #include <cpu/IDT.h>
 #include <lib/printf.h>
+#include <dev/pic.h>
 #include <flanterm/flanterm.h>
 #include <flanterm/backends/fb.h>
 
@@ -101,8 +102,7 @@ void _start(void) {
     dprintf("[STARTING] starting initializing CPU stuff\n");
     gdtInstall();
     idtInstall();
-
-    //asm volatile("int $1");
+    picRemap();
 
     hcf();
 }
