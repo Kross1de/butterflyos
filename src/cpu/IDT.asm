@@ -346,8 +346,8 @@ irq_stub 255
 section .data
 
 idt_int_table:
-  %assign i 0
-  %rep 256
-    dq int_stub%+i
-    %assign i i+1
+    %assign i 0
+    %rep 256
+        dq int_stub%+i
+        %assign i i+1
   %endrep
