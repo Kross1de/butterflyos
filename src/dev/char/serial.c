@@ -1,8 +1,3 @@
-/*
- * CREDITS: astrido
- * https://github.com/asterd-og/ZanOS/
- */
-
 #include <dev/char/serial.h>
 
 #define COM1 0x3f8
@@ -28,9 +23,13 @@ char serialReadChar(){
       return inb(COM1);
 }
 
-void dprintf(const char* fmt,...){
-      va_list args;
-      va_start(args,fmt);
-      vfctprintf(serial_write_char,NULL,fmt,args);
-      va_end(args);
+void dprintf(const char* format, ...) {
+    va_list args;
+    va_start(args, format);
+    vfctprintf(serial_write_char, NULL, format, args);
+    va_end(args);
+
+    va_start(args, format);
+    vprintf(format, args);
+    va_end(args);
 }
