@@ -44,3 +44,7 @@ typedef struct {
 
 void idtInstall();
 void idt_set_entry(u8 vec, void* isr, u8 flags);
+void irq_register(u8 vec, void* handler);
+void irq_unregister(u8 vector);
+void isr_handler(regs* r);
+void irq_handler(regs* r);
