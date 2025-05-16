@@ -3,6 +3,7 @@
 #include <sys/io.h>
 #include <cpu/GDT.h>
 #include <cpu/IDT.h>
+#include <mm/pmm.h>
 #include <lib/printf.h>
 #include <lib/libc.h>
 #include <dev/pic.h>
@@ -87,6 +88,7 @@ void _start(void) {
     gdtInstall();
     idtInstall();
     picRemap();
+    pmmInit();
 
     hcf();
 }
