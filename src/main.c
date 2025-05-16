@@ -88,7 +88,7 @@ void _start(void) {
     gdtInstall();
     idtInstall();
     picRemap();
-    pmmInit();
+    pmm_init();
 
     hcf();
 }
