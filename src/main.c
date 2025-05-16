@@ -4,6 +4,7 @@
 #include <cpu/GDT.h>
 #include <cpu/IDT.h>
 #include <lib/printf.h>
+#include <lib/libc.h>
 #include <dev/pic.h>
 #include <dev/char/serial.h>
 #include <flanterm/flanterm.h>
@@ -86,8 +87,6 @@ void _start(void) {
     gdtInstall();
     idtInstall();
     picRemap();
-
-    asm volatile ("int $128");
 
     hcf();
 }
